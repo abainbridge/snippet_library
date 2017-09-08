@@ -41,3 +41,5 @@ HashTable hash_table_create(uint32_t num_items, size_t sizeof_item);
 void *hash_table_add(HashTable ht, void *item);
 
 void *hash_table_lookup(HashTable ht, uint32_t key);
+
+void hash_table_remove(HashTable ht, uint32_t key);
