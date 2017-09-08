@@ -1,4 +1,4 @@
-// Implements a simple cuckoo hashing scheme using 2 hash algorithms, indexing into a single table.
+// Implements a simple cuckoo hashing scheme using 2 hash algorithms, indexing into two tables.
 
 // Own header
 #include "hash_table.h"
