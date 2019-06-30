@@ -1,0 +1,120 @@
+# Overview
+
+There is one "controller" machine and one or more "remote" machines. The
+controller machine can be your laptop/desktop, or one of the hostXX
+Ubuntu machines.
+
+Tests can be launched and monitored interactively from a login shell on the
+controller machine or can be run in batch mode, typically from a cronjob on the
+controller machine.
+
+A cronjob runs on host01, as user epcadmin. Stdout and stderr from the
+remote machines is captured and stored locally in ~/proj/perf_tests. A lower level
+capture of the cronjob output is stored in /var/mail/$USER. A convenient way to
+view it is 'tail -30 /var/mail/$USER'.
+
+There's a boot-strapping problem: the scripts to run the tests are stored in
+the Git repo, but the tests need to do a clean git clone before they run. This
+is solved by the clean git clone being put in ~/proj_perf_tests instead of
+the default of ~/proj.
+
+To run the tests interactively, you can cd into
+~/proj_perf_tests/DevOps/perf_tests and run, say, ./1_rkvs.sh. This will run
+the test on the three remote machines, but assume that those machines have
+already had a clean git clone done and the test binaries have been built there.
+If you want to interactively do the remote setup AND run the tests, then you
+should cd to ~/proj/DevOps/perf_tests (ie NOT ~/proj_perf_tests) and run
+./run_all_tests.sh from there.
+
+Results are appended to ~/ci_results/<test_num>_results.txt.
+
+
+
+# Setup
+
+## Controller machine
+
+* sudo apt install postfix
+  Select "local only" when prompted.
+  This makes cron store stdout/stderr of cronjobs in /var/mail/$USER.
+
+* rsa key private key must be present in ~/.ssh and called id_rsa. Remember to chmod 600 id_rsa.
+
+* Git clone this repo.
+
+* "crontab -e" and add this line:
+  0 * * * * cd proj/DevOps/perf_tests && ./cron_wrapper.sh ./run_all_tests.sh <password>
+
+
+
+## Remote machines
+
+* rsa public key must be present in ~/authorized_keys. Remember to chmod 600.
+
+
+## All machines
+
+* The user (ie testadmin) must be in the sudo group.
+
+* Create a file ~/exports.sh, with the following content and chmod 600 it:
+  export GIT_PASS=XXX
+
+
+
+# Solved Problems
+
+P: Need to provide password to remote system for sudo.
+A: Put the password in the crontab as an argument to the cronjob command. Pass that as a parameter between the scripts.
+   Eventually the script launches the ssh session to the remote machine, it can do this
+   echo $pass | ssh -tt ...
+   So that when a remote sudo command is executed, the password is read as if being typed by a user.
+
+P: Need to be support multiple remote commands written on separate lines locally.
+A: Use cat + heredoc trick to get multi-lines into variable, then ssh blah "$cmd". The quotes matter.
+
+P: Need a password on remote machine for git clone
+A: We created a read-only user for the git repo and store its password in an
+   environment variable. See Setup.
+   
+P: ssh says, "ESDSA key fingerprint unknown."
+A: Use ssh -o StrictHostKeyChecking=no
+
+P: ssh says, "Failed to add the host to the list of known hosts (/home/andbain/.ssh/known_hosts)."
+A: sudo chown andbain ~/.ssh
+
+P: ssh says, "The ECDSA host key for 'host06' differs from the key for the IP address '10.190.50.138'"
+A: Use ssh -q
+  
+P: When run on l10, the remote ssh session seemingly does nothing.
+A: l10 doesn't have the rsa key, so cannot login to l06.
+   Add -oBatchMode=yes to ssh command to get a better error message.
+   The "better" error message is "Permission denied (publickey,password)".
+   Then put the private key in the .ssh directory on l10. Remember to chmod 600.
+
+P: The cronjob fails. The sudo grep CRON /var/log/syslog shows:
+   May 30 15:48:01 host10 CRON[48760]: (andbain) CMD ($HOME/proj/DevOps/perf_tests.sh -p1q0o2w)
+   May 30 15:48:01 host10 CRON[48757]: (CRON) info (No MTA installed, discarding output)
+A: "sudo apt install postfix" to install an email system, which is where the logging goes.
+   Then "sudo tail -f /var/mail/$USER to see the output.
+
+P: Cronjob output says, "TERM environment variable not set".
+A: Create the following script and call it proj/DevOps/perf_tests/cron_wrapper.sh:
+#!/bin/bash -l
+export TERM=xterm
+exec "$@"
+   Set the command in the crontab to be:
+   $HOME/proj/DevOps/perf_tests/cron_wrapper.sh $HOME/proj/DevOps/perf_tests/run_all_tests.sh <password>
+   Remember to chmod +x the new script.
+
+P: Left-over 4_batch_perf process on l06 prevented script from working.
+A: Add sudo pkill 4_batch_perf to script.
+
+
+
+# Open Problems
+
+P: Remote process doesn't finish.
+A: Add timeout to monitor.
+
+P: Need to put the plaintext password in the crontab
+A:?
