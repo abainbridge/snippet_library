@@ -1,3 +1,5 @@
+#include <float.h>
+#include <math.h>
 #include <stdint.h>
 
 
@@ -39,4 +41,31 @@ uint64_t rand64() {
 	s[1] = rotl(s1, 36); // c
 
 	return result;
+}
+
+
+double rand_gaussian(double mean, double variance)
+{
+    static const double epsilon = DBL_MIN;
+    static const double two_pi = 2.0 * 3.14159265358979323846;
+
+    static double z1 = 0.0;
+    static int generate = 0;
+    generate = 1 - generate;
+
+    if (!generate) {
+       return z1 * variance + mean;
+    }
+
+    double u1, u2;
+    do {
+       u1 = fastrand2() * (1.0 / 0xfffffffful);
+       u2 = fastrand2() * (1.0 / 0xfffffffful);
+    }
+    while (u1 <= epsilon);
+
+    double z0;
+    z0 = sqrt(-2.0 * log(u1)) * cos(two_pi * u2);
+    z1 = sqrt(-2.0 * log(u1)) * sin(two_pi * u2);
+    return z0 * variance + mean;
 }
