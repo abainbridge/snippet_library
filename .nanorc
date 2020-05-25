@@ -1,0 +1,10 @@
+bind M-/ comment main
+bind ^F whereis main
+bind ^G gotoline main
+bind ^H replace main
+bind ^S savefile main
+bind ^Y redo main
+bind ^Z undo main
+set const # Display cursor pos in status bar
+set tabsize 4
+set tabstospaces
