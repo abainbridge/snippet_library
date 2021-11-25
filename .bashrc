@@ -12,7 +12,7 @@ PROMPT_COMMAND="pwd > ~/.lastdir;$PROMPT_COMMAND"
 cd `cat ~/.lastdir`
  
 shopt -s checkwinsize
-shopt -s no_empty_cmd_completion
+shopt -s no_empty_cmd_completion # Without this, pressing tab with an empty command line searches PATH for everything. This takes ages.
 shopt -s nocaseglob         # Make the * wildcard case insensitive
 export HISTCONTROL=ignoreboth:erasedups
  
