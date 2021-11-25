@@ -24,5 +24,6 @@ HISTIGNORE='ls:bg:fg:history'
 HISTTIMEFORMAT='%F %T '
 
 bind "set show-all-if-ambiguous on"
+bind "set completion-ignore-case on"
 
 python2 -c "import colorsys, hashlib; hue=int(hashlib.md5(\"$HOSTNAME\").hexdigest()[:2], 16)/255.0; c=colorsys.hsv_to_rgb(hue, 1, 0.3); print'\033]11;#%xf%xf%xf\a'%(int(c[0]*11),int(c[1]*9),int(c[2]*15))"
