@@ -16,7 +16,7 @@ shopt -s no_empty_cmd_completion # Without this, pressing tab with an empty comm
 shopt -s nocaseglob         # Make the * wildcard case insensitive
 export HISTCONTROL=ignoreboth:erasedups
  
-alias ls='ls -oAF --color --group-directories-first'
+alias ls="ls -oAF --color --group-directories-first --block-size=\'1" # The funky block-size causes thousands to be separated by commas.
 
 HISTFILESIZE=9000
 HISTSIZE=8000
