@@ -1,0 +1,19 @@
+Run a command every minute:
+* * * * * command
+
+Run a command every 5 minutes:
+*/5 * * * * command
+
+Run a command every hour:
+0 * * * * command
+
+Log output to a file (doing &> isn't supported):
+* * * * * command 2>&1 > $HOME/some_log.txt
+
+Use cron_wrapper.sh to get a sane Bash environment:
+* * * * * $HOME/FlexRAN/ci/cron_wrapper.sh echo baz >$HOME/cron_log.txt 2>&1
+
+Where cron_wrapper.sh contains:
+    #!/bin/bash -l
+    export TERM=xterm
+    exec "$@"

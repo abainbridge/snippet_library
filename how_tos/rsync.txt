@@ -1,0 +1,32 @@
+To do this as a build step in the Trowel or VS, create a .bat file containing something like the following:
+
+@echo off
+PATH=%PATH%;c:\cygwin64\bin
+rsync -avz --exclude setproj --exclude dot_alias --exclude "*.pyc" --exclude "*.pdf" --exclude "rsync.bat" --exclude "*vcxproj*" --exclude "*.sdf" --exclude "*.suo" --exclude "Debug" --exclude ".git" /cygdrive/c/work/NetworkController admin@10.5.1.106:~
+pause
+
+---------------
+
+
+Add this to the Python startup:
+
+def Build():
+    editor.send_command("DocViewManager", "SaveAll")
+    editor.system("c:/work/NetworkController/python_scripts/rsync.bat")
+
+
+This to the key mapping:
+
+key=F7              object=Script           command=Build              focus=global
+
+
+And this to the menu config:
+
+menu=Tools label="Build"                object=script           command=Build
+
+
+---------------
+
+To avoid having to type your password:
+
+Create an RSA key pair. Add the public key to ~admin/.ssh/authorized_keys. That's it.

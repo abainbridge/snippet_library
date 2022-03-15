@@ -1,0 +1,26 @@
+Didn't work while at Roku because of https://github.com/winfsp/sshfs-win/issues/101
+
+https://github.com/billziss-gh/sshfs-win
+
+Install the latest version of WinFsp.
+Install the latest version of SSHFS-Win.
+
+Right click on "This PC" in Windows Explorer. Select mount network drive. Enter
+a spec like this \\sshfs\REMUSER@HOST[\PATH]
+
+-----------------------
+
+sftpdrive on Windows
+https://www.nsoftware.com/kb/articles/sftpdrive-quickstart.rst
+
+
+sudo groupadd sftp_users
+sudo usermod -G sftp_users <username>
+sudo useradd senthil -g sftpgroup -s /sbin/nologin
+sudo nano /etc/ssh/sshd_config
+
+    Add the following:
+       Match Group sftp_users
+       ChrootDirectory /home/abainbridge
+
+sudo systemctl restart sshd

@@ -1,0 +1,106 @@
+== Terminiology ==
+
+image -         Set of files with no state.
+container       Instantiation of an image.
+
+Images are frozen immutable snapshots of live containers. Containers are
+running (or stopped) instances of some image.
+
+
+== General ==
+
+docker attach mme - attach to a running container
+    To detach the tty without exiting the shell, use the escape sequence Ctrl+p then Ctrl+q.
+
+docker cp foo.txt mycontainer:/foo.txt
+docker cp mycontainer:/foo.txt foo.txt
+
+docker exec -it [container-id] bash - attach to a running container with a new tty
+
+docker create --network=mgmt --ip=192.168.254.101 --dns=8.8.8.8 \
+       -v /opt/cfg:/opt/cfg \
+       -v /opt/logs/python_scripts/epc_iot_daemons/log:/opt/logs/python_scripts/epc_iot_daemons/log \
+       --name logs_epc_iot -it bgdcontainers-microsoft.azurecr.io/logs /opt/logs/python_scripts/epc_iot_daemons/container_epc_iot.sh
+
+docker images - List images.
+
+docker image rm - Remove an image.
+
+docker logs logs_machine_health.
+
+docker ps -a - List all containers, including not running ones.
+
+docker run - create a new container.
+    -d = detach
+    -i = interactive
+    --name = Assign a name to the container
+    --privileged
+    -t = tty
+    -v = Mount a folder from the host in the container's view of the filesystem
+
+docker start - start a stopped container
+
+docker stop [container id] - stop a container. Get the container id by running docker container ls
+
+docker rm - Remove a container.
+
+
+== To create a new container ==
+
+Open /opt/OpenEPC/install/install_utils.sh in an editor. Add lines to the
+following two functions, following the existing pattern:
+    docker_create_log_containers
+    docker_remove_log_containers
+
+Add container name in services="logs_epc_iot logs_azure_uploads logs_s1ap"
+in both install_logs.sh and install_system.sh
+
+Some other things...
+
+
+== Change the run parameters on a container ==
+
+sudo docker ps
+sudo docker stop container_id
+sudo docker commit container_id image_name
+sudo docker run <whatever> image_name
+
+
+== In our system to make a change to a script ==
+
+Find the name of your systemd job that runs your docker by running "systemctl list-dependencies"
+
+Stop the systemd job, eg "systemctl stop docker_logs_machine_health". That will
+have the side effect of stopping the docker container.
+
+docker rm logs_machine_health
+
+Look in /opt/OpenEPC/install/install_utils.sh for the
+docker_create_log_containers function. Find the line that starts the docker
+container you want to edit. The last thing on the line is the command that will
+run inside the docker container. Copy the line except that last part. The line
+should look something like this:
+
+docker create --network=a_net --ip=192.168.2.104 --dns=8.8.8.8 -v /opt/cfg:/opt/cfg --name logs_machine_health -it bgdcontainers-microsoft.azurecr.io/logs
+
+Run that line.
+
+docker start logs_machine_health.
+docker attach logs_machine_health.
+You might have to press return to see the command prompt.
+
+Make your change.
+
+Press Ctrl+p, Ctrl+q to exit.
+
+docker commit -m "Added mpstat" -a andbain logs_machine_health bgdcontainers-microsoft.azurecr.io/logs
+docker login bgdcontainers-microsoft.azurecr.io -u BgdContainers -p kS/AAHSa8zQ1GdfqWqkPWNWHkxDrRqmN
+docker push bgdcontainers-microsoft.azurecr.io/logs
+
+See if it all worked by doing:
+  /opt/OpenEPC/install/install_logs.sh
+Or, if you change something that wasn't a logger, or you want to test that you didn't break the EPC stuff:
+  OpenEPC/install/install_system.sh 
+
+Then, check it is outputting something sensible:
+  docker logs logs_machine_health

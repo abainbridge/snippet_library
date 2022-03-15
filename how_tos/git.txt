@@ -1,0 +1,85 @@
+git config --global user.email "abainbridge@roku.com"
+git config --global user.name "Andrew Bainbridge"
+
+
+== Show repo URL ==
+
+git config --get remote.origin.url
+git branch
+
+
+== Clone a specific branch ==
+
+git clone -b <branch name> <repo URI>
+
+
+== Revert a local change ==
+
+git checkout <filename>
+
+or for a whole subtree:
+  git checkout . 
+
+
+== Revising local commits before pushing ==
+
+git rebase -i
+
+https://git-scm.com/book/en/v2/Git-Tools-Rewriting-History
+
+
+== Edit an commit message that has not been pushed ==
+
+git commit --amend
+
+
+== Setting your branch to exactly match the remote branch can be done in two steps ==
+
+git fetch origin
+git reset --hard origin/master
+
+
+== Show history of renamed file ==
+
+git log --follow <filename>
+
+
+== Sparse Checkout ==
+
+Nothing can prevent git from having to download the entire thing, despite what the internet says.
+
+
+== Remember password in memory for 15 minutes ==
+
+git config --global credential.helper cache
+
+
+== Copy a folder from one repo to another and preserve history ==
+
+Use the top voted answer here (not the accepted answer):
+https://stackoverflow.com/questions/1365541/how-to-move-files-from-one-git-repo-to-another-not-a-clone-preserving-history
+
+The idea is to form a patch file of all the commits that pertain to your chosen
+folder, then apply that patch in the new repo. The nice thing is that you can
+adjust the folder names by running a sed command on the patch file before you
+apply it. In my case I used sed to replace /msrc/rkvs/ with /libs/rkvs/. The
+command was:
+
+sed -i "s_/msrc/rkvs/_/libs/rkvs/_g" patch
+
+
+== Get a submodule ==
+
+git submodule init port/mediatek/r81x
+git submodule update --progress port/mediatek/r81x
+
+
+== Get all submodules ==
+
+git clone --recurse-submodules
+
+
+== Beyond compare ==
+
+After setup:
+    git difftool

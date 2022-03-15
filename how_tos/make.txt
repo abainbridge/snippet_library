@@ -1,0 +1,41 @@
+To force make to show the commands it is running:
+
+Try "make -n", but that will probably break the build.
+
+If the Makefile was made by cmake, try "make VERBOSE=1"
+
+Or use execsnoop:
+
+% git clone https://github.com/brendangregg/perf-tools.git
+% cd perf-tools
+% sudo ./execsnoop
+
+----------------------
+
+Use $(warning $(whatever)) to do printf debugging.
+
+----------------------
+
+src_dir=../../code
+obj_dir=obj
+inc_dirs=-I../../code -I../../contrib/pcre-6.7 -I../../contrib/Python-2.7.1/Include -I../../contrib/Python-2.7.1/PC
+
+cxxflags=-MMD -Wall -Wshadow -Wwrite-strings -fno-strict-aliasing
+
+c_files=$(wildcard $(src_dir)/*.cpp)
+o_files=$(patsubst $(src_dir)/%.cpp,$(obj_dir)/%.o,$(c_files))
+d_files=$(patsubst %.o,%.d,$(o_files))
+
+all: $(obj_dir) $(o_files)
+
+# This magic line makes g++ pay attention to the dependency files
+-include $(d_files)
+
+$(obj_dir)/%.o: $(src_dir)/%.cpp
+	g++ $(cxxflags) $(inc_dirs) $< -c -o $@
+
+$(obj_dir):
+	mkdir -p $(obj_dir)
+
+clean:
+	rm -f $(o_files) $(d_files)

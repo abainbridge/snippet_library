@@ -1,0 +1,24 @@
+Put this in msys/home/andbain/.minttyrc
+
+BoldAsFont=-1
+Columns=120
+Rows=55
+BackgroundColour=45,35,0
+ForegroundColour=200,200,200
+CursorColour=217,230,242
+Black=0,0,0
+BoldBlack=129,129,129
+Red=255,59,64
+BoldRed=255,110,115
+Green=24,255,29
+BoldGreen=115,255,110
+Yellow=255,255,59
+BoldYellow=255,255,110
+Blue=59,64,255
+BoldBlue=110,115,255
+Magenta=227,59,232
+BoldMagenta=255,110,255
+Cyan=29,242,247
+BoldCyan=110,255,255
+White=199,199,199
+BoldWhite=255,255,255

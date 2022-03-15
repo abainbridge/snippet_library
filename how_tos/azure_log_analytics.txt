@@ -1,0 +1,1 @@
+search * | where OperationName == "LoadBalancerProbeHealthStatus" | where ResourceGroup == "ANDY1_1"

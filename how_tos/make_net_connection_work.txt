@@ -1,0 +1,4 @@
+* Do you need to enable the SDR VPN?
+* Do you need to disable and re-enable your ethernet adapter?
+* Are you plugged into rednet or corpnet directly like you should be?
+* Is the Windows routing table sending all your traffic via a broken MiFi?

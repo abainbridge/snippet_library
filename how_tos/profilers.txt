@@ -1,0 +1,53 @@
+# gprof
+
+Instrumented.
+
+Compile with -g -pg
+Run the program.
+gprof program-name
+
+
+# perf
+
+Sample based.
+
+perf record --call-graph dwarf command
+or
+build with -fno-omit-frame-pointer and use perf record -g command
+perf report -M intel # And maybe --hierarchy
+
+
+# Perf multi-threaded flame graphs
+
+The threads are not labelled in the output but you can tell which is which with a little thought.
+
+cd
+git clone https://github.com/brendangregg/FlameGraph.git
+sudo perf record -F 999 -g --call-graph dwarf <my app>
+or sudo perf record -F 999 -g --call-graph dwarf -p <my PID>
+sudo perf script | ~/FlameGraph/stackcollapse-perf.pl --all | ~/FlameGraph/flamegraph.pl --color=java --hash > perf.svg
+
+
+# Using perf to see how Linux schedules your threads
+
+perf sched record ./my_app
+perf sched map
+
+
+
+# oprofile
+
+Sample based.
+
+sudo apt install oprofile
+operf program-name # Run the profiling session
+opreport program-name
+opannotate --source --assembly program-name
+
+See: http://oprofile.sourceforge.net/examples/
+
+
+# Cachegrind
+
+valgrind  --tool=cachegrind program-name
+cg_annotate cachegrind.out.244905

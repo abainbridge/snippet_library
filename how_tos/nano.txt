@@ -1,0 +1,20 @@
+Add this to ~/.nanorc:
+
+include /usr/share/nano/c.nanorc
+include /usr/share/nano/makefile.nanorc
+include /usr/share/nano/python.nanorc
+include /usr/share/nano/sh.nanorc
+
+bind ^C copytext main
+bind ^V uncut main
+bind ^X cut main
+bind ^Z undo main
+bind ^Y redo main
+bind ^G gotoline main
+bind ^F whereis main
+bind ^R replace main
+bind ^Q exit main
+
+set tabsize 4
+set tabstospaces
+set mouse

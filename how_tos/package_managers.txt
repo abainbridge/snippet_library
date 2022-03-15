@@ -1,0 +1,36 @@
+# Pacman
+
+pacman -S install a package
+
+
+
+
+# Apt
+
+## Find which package has specific file
+
+sudo apt install apt-file
+sudo apt-file update
+apt-file find kwallet.h
+
+
+## Find which files were installed by a specific package
+
+dpkg-query -L <package name>
+
+
+## Show installed version of package
+
+dpkg -s <package name>
+
+
+## Broken packages
+
+When you get "broken packages held", sometimes aptitude helps:
+* sudo apt install aptitude
+* sudo aptitude install <package>
+
+
+## Remove package
+
+sudo apt remove <package>

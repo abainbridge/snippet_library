@@ -1,0 +1,60 @@
+= Ubuntu 20 =
+
+* Disabled secure boot
+
+* Followed Surface Book kernel install
+
+* Created keyboard shortcut for suspend by using the standard Ubuntu keyboard shortcut manager and using the command "systemctl suspend"
+
+* Installed TrueCrypt:
+    sudo add-apt-repository ppa:stefansundin/truecrypt
+    sudo apt-get update
+    sudo apt-get install truecrypt
+    sudo visudo -f /etc/sudoers.d/truecrypt
+    add line: your_username ALL=(ALL) NOPASSWD:/usr/bin/truecrypt
+
+* Disable unattended upgrades
+    sudo dpkg-reconfigure unattended-upgrades
+    sudo apt remove unattended-upgrades
+
+
+== Control monitor brightness ==
+
+On Xubuntu...
+sudo apt install ddcutil
+sudo usermod andy -aG i2c
+reboot
+ddcutil detect # Find the /dev/ic2-<bus number> for commands below
+ddcutil --bus 24 setvcp 10 - 10 # Make dimmer
+ddcutil --bus 24 setvcp 10 + 10 # Make brighter
+
+
+== Fix broken packages ==
+
+https://askubuntu.com/questions/140246/how-do-i-resolve-unmet-dependencies-after-adding-a-ppa
+
+
+== Manage Package repos ==
+
+List them:
+  grep ^d /etc/apt/sources.list /etc/apt/sources.list.d/*
+
+  Generates output like:
+        /etc/apt/sources.list.d/signal-xenial.list:deb [arch=amd64 signed-by=/usr/share/keyrings/signal-desktop-keyring.gpg] https://updates.signal.org/desktop/apt xenial main
+        /etc/apt/sources.list.d/signal-xenial.list.save:deb [arch=amd64 signed-by=/usr/share/keyrings/signal-desktop-keyring.gpg] https://updates.signal.org/desktop/apt xenial main
+        /etc/apt/sources.list.d/stefansundin-ubuntu-truecrypt-focal.list:deb http://ppa.launchpad.net/stefansundin/truecrypt/ubuntu focal main
+
+
+Add:
+
+Remove:
+remove': sudo apt-add-repository --remove ppa:stefansundin/truecrypt
+
+
+== Problems ==
+
+* Seahorse "Passwords and Keys" crashed. I don't want it in the first place.
+
+* Auto update bothered me even though auto update was as disabled as I could make it be.
+
+* There's no visible difference between the active window and background windows.

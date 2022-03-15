@@ -1,0 +1,29 @@
+* Select these packages in the installer:
+    g++
+    gcc core
+    graphviz
+    mscgen
+    openssh
+    paramiko
+    python (2.7)
+    rsync
+    zsh
+* Make sure standard Windows python isn't on the path. Then do python -m ensure pip
+* pip install:
+    azure-storage
+
+------------
+
+
+1. Start mintty.exe and wait until it opens.
+
+2. mkpasswd -c > /etc/passwd
+
+3. mkgroup -c > /etc/group
+
+4. Open etc/nsswitch.conf and set contents to:
+
+passwd: files # db
+group:  files # db
+
+Now your cygwin should start immediately.

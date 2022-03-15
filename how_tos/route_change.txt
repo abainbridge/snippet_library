@@ -1,0 +1,7 @@
+On Windows:
+
+route change <dest>  mask <mask>  <gateway>   metric <metric> if <interface number>
+route change 0.0.0.0 mask 0.0.0.0 192.168.1.1 metric 20       if 9
+
+Notes:
+* The metric you specify will have 10 added to it.

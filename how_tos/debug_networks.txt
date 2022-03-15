@@ -1,0 +1,37 @@
+Can you send packets from point to point using UDP with netcat?
+
+Client: nc -u 192.168.100.11 1234
+Server: nc -u -l 192.168.100.11 1234
+
+
+
+What does tshark show at each end?
+
+sudo tshark -i eth1 udp port 1234
+
+
+
+If you've got more than 1 interface, is the IP route sending packets on the correct one?
+$ ip route
+
+
+
+If you can't even see the packets netcat sends in a local tshark, try rebooting
+the machine, particularly if your on Azure and you've been running DPDK.
+
+
+
+If you're using our net lib, enable PCAP_DUMP.
+
+
+
+If you're using DPDK, see if you can send packets with testpmd.
+
+sudo ~/dpdk-stable-18.08.1/build/app/testpmd --vdev="net_vdev_netvsc0,iface=eth1" -- --forward-mode=txonly
+
+
+
+If you can't send packets with testpmd, does the startup text say, "cannot
+access device, is mlx4_ib loaded?" If so, do:
+
+sudo modprobe mlx4_ib

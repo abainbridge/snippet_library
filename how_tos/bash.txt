@@ -1,0 +1,25 @@
+== Get Name of bash script ==
+
+`basename "$0"`
+
+
+== Get directory that a bash script is in ==
+
+dn=`dirname $(readlink -f $0)`
+
+
+== Test if variable is unset or set to the empty string ==
+
+if [ -z "$var" ];
+
+
+== Read each line of file into array ==
+
+readarray -t array < file
+
+
+== What's the counting a range for loop syntax ==
+
+for i in $(seq 1 $END); do echo $i; done
+
+

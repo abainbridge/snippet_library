@@ -1,0 +1,86 @@
+gdb --args executablename arg1 arg2 arg3
+
+start - starts stopped at start of main
+run - starts not stopped
+s - step in
+n - step over
+fin[ish] - step out
+c - continue
+p <expr> - print expression
+p/x <expr> - hex print
+p *foo_ptr@len - View pointer as array
+x/20x <expr> - hex print 20 bytes
+bt - show stack backtrace
+info threads - list threads
+ptype <type> - Print definition of a type
+
+b             - set breakpoint on current line
+b +2          - set breakpoint two lines down
+b <func name> - set breakpoint at start of function
+b <file:line> - set breakpoint on a line of a file
+clear         - Delete any breakpoints at the next instruction to be executed
+clear <stuff> - Same behaviour as 'b' when setting breakpoints.
+i[nfo] b      - List breakpoints
+d 1 2         - Delete breakpoints 1 and 2
+d             - delete all breakpoints
+u <line num>  - Run until specified line
+
+set variable i=0 - Set the value of a variable.
+
+layout asm    - Show disassembly
+info registers
+
+info threads
+t 2           - Switch to thread 2
+
+frame 1 - Select stack frame 1
+
+call function(whatever) - Call a function.
+
+Run from start:
+    gdb -ex run ./a.out
+
+TUI (Curses mode):
+ Enter - ctrl+x, ctrl+a
+ Toggle pane focus - ctrl+x, o (eg so you can focus the command window - needed so that up arrow gets previous command)
+ Enter single key press mode - ctrl+x, s
+
+Attach to a running process with gdb -p PID.
+
+
+== Instruction to cause break under GDB ==
+
+__asm__("int3")
+
+
+== Debug a core file ==
+
+To enable core dumps on Ubuntu 16:
+  ulimit -c unlimited
+
+Do the following to find where the core file went:
+  cat /var/log/apport.log
+
+gdb path/to/the/binary path/to/the/core
+
+
+== cat >~/.gdbinit ==
+
+define hook-quit
+    set confirm off
+end
+
+set disassembly-flavor intel
+set history save on
+
+
+== GDB with Valgrind ==
+
+If you want to debug a program with GDB when using the Memcheck tool, start Valgrind like this:
+    valgrind --vgdb=yes --vgdb-error=0 prog
+
+In another shell, start GDB:
+    gdb prog
+
+Then give the following command to GDB:
+    (gdb) target remote | vgdb

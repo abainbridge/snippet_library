@@ -1,0 +1,11 @@
+socket (AF_INET, SOCK_RAW, IPPROTO_RAW);
+- We must provide the IP header.
+- This would be the easiest way to implement ICMP or multiple TCP connections with a single socket.
+
+socket (PF_PACKET, SOCK_RAW, htons (ETH_P_ALL));
+- We must provide the eth header, but only need to fill in the dest addr. The kernel will fill in the source addr for us.
+- One step lower level than the above. We need to do this if the Linux IP stack will not be able to get the MAC address of the dest via ARP for some reason.
+
+socket (PF_PACKET, SOCK_DGRAM, htons (ETH_P_ALL));
+- We must provide the eth header, INCLUDING the src addr. (We have to use sendto, not send).
+

@@ -1,0 +1,16 @@
+.vimrc should contain this:
+
+syntax on
+set shiftwidth=4
+set expandtab
+set autoindent
+
+----------------------
+
+Keyboard shortcuts:
+
+Mark a block        V
+Indent a block      >
+Cut a block         d
+Copy a block        y
+Paste a block       p

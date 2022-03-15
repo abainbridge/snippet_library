@@ -1,0 +1,80 @@
+To make it work without sudo:
+  * sudo dpkg-reconfigure wireshark-common
+  * sudo usermod -a -G wireshark $USER
+  * logout and log back in again
+
+
+tshark -w capture.pcap      # Write to file
+tshark -r capture.pcap      # Read from file
+
+
+tshark -f icmp -V -o ip.check_checksum:TRUE -o udp.check_checksum:TRUE -o tcp.check_checksum:TRUE
+    -f only include icmp packets
+    -i <interface>
+    -V decode all the fields
+
+tshark -f "tcp port 5001" -V
+tshark host 10.190.228.116
+
+
+To disable TX checksum offloading:
+  sudo ethtool --offload eth0 tx off
+To check the offloading enabledness:
+  ethtool -k eth0
+
+
+Python code to clean -V output:
+
+import sys
+lines = sys.stdin.readlines()
+boring_lines = (
+    'Flags: ',
+    'Fragment offset: ',
+    'Stream index: ',
+    ' .... ',
+    'Differentiated Services Field: 0x00 (DSCP: CS0, ECN: Not-ECT)',
+    '0000 00.. = Differentiated Services Codepoint: Default (0)',
+    'Source: ',
+    'Destination: ',
+    'Source Port: ',
+    'Destination Port: '
+)
+in_frame_hdr = False
+for l in lines:
+    if l.find('GeoIP') >= 0 or l.lower().find('checksum status:') >= 0 or l.find('[Calculated Checksum:') >= 0:
+        continue
+
+    skip_this = False
+    for bl in boring_lines:
+        if bl in l:
+            skip_this = True
+    if skip_this:
+        continue
+
+    if in_frame_hdr:
+        if l.startswith('Ethernet II'):
+            print l,
+        elif l.startswith('Internet Protocol') or l.startswith('Address Resolution Protocol'):
+            in_frame_hdr = False
+            print l,
+    else:
+        if l.startswith('Frame '):
+            print
+            in_frame_hdr = True
+        print l,
+
+
+Use it like this:
+
+sudo tshark -w /tmp/dump.pcap
+tshark -r /tmp/dump.pcap -V | python ~/clean.py
+
+
+import sys
+for l in sys.stdin.readlines():
+    if len(l) < 3:
+        continue
+    if l.startswith('Frame'):
+        print
+    if l[0] != ' ' and l[0] != '\t':
+        print l,

@@ -1,0 +1,6 @@
+While viewing the page you want to print, press F12 to launch Chrome DevTools.
+Make sure it's on the tab Elements and the <body> element is selected. Now move
+to the Styles tab (on the right) and, in element.style, insert the following:
+(just click after the opening brace {)
+
+zoom: 85%;

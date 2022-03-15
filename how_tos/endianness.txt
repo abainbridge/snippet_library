@@ -1,0 +1,8 @@
+The value 0, 0, 0, 1 on little-endian machine is actually interpreted as the
+value 16777216, and likewise for 1, 0, 0, 0 on a big-endian machine.
+
+little-endian is wrong endian, or stupid endian.
+
+big-endian is correct endian or sensible endian.
+
+Network byte order is big-endian.

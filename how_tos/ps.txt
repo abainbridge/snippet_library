@@ -1,0 +1,3 @@
+f - Show tree
+u - Display user oriented format
+x - Include non TTY processes

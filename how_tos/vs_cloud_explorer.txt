@@ -1,0 +1,20 @@
+You need to install the Azure SDK for VS.
+
+
+When looking at a table, you can filter for today's items by putting this in the search box:
+PartitionKey eq '2016-05-11'
+
+Or you can filter on time like this:
+Timestamp gt datetime'2016-05-10T00:00:00'
+
+Or you can combine both with 'and'.
+
+
+
+To find the SQL table:
+* You need to use the SQL Server Object Explorer, not the Cloud Server.
+* If you haven't already, you need to "add" a server. Azure->Users (projectbgd). user:aztvws pass:lte......
+* Expand projectbgd.database.windows.net (SQL Sever...Users)->Databases->Users->Tables.
+* After a while, you should see dbo.Users. Right click and select:
+ * "View Code" to edit SQL. Add field to add a column.
+ * "View Data" to view the data!

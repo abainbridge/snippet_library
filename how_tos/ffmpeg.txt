@@ -1,0 +1,36 @@
+Convert from h264 NAL stream to MP4 and set frame rate:
+  ffmpeg -r 30 -i video_in.h264 -vcodec copy video_out.mp4
+
+Re-encode to improve quality:
+  ffmpeg -i infile.h264 -c:v libx264 -b:v 700k foo.mkv
+
+  - b:v is the target bitrate in bits per sec.
+
+Extract a section from the middle of a longer video, starting 103 seconds in, running for 15 seconds:
+  ffmpeg -i now.h264 -ss 103 -t 15 -vcodec copy clip.mkv
+
+Receive an mp4 stream from an RTSP server (and strip audio):
+  ffmpeg -i rtsp://dva:Dvatest10@10.6.0.9/mpeg4 -vcodec copy -an lovely.mp4
+
+Serve an RTSP stream from a file:
+  ffmpeg -i space.mp4 -vcodec libx264 -tune zerolatency -crf 18 http://localhost:1234/feed1.ffm
+
+How to extract (or show via ffplay) motion vectors:
+  ffplay -flags2 +export_mvs input.mp4 -vf codecview=mv=pf+bf+bb
+  ffmpeg -flags2 +export_mvs -i input.mp4 -vf codecview=mv=pf+bf+bb output.mp4
+
+Convert a video into a series of pngs:
+  ffmpeg -i foo.mp4 -vcodec png orig_%04d.png
+
+Convert a series of pngs into a video:
+  ffmpeg -r 25 -f image2 -i det_%04d.png -vcodec libx264 -crf 15 -pix_fmt yuv420p detected.mp4
+
+   -r is the framerate (fps)
+   -crf is the quality, lower means better quality, 15-25 is usually good
+   -pix_fmt yuv420p specifies the pixel format, change this as needed
+
+Rotate a video:
+  ffmpeg -i input -vf transpose=2 output
+
+Extract the audio stream without re-encoding:
+  ffmpeg -i input-video.avi -vn -acodec copy output-audio.aac
