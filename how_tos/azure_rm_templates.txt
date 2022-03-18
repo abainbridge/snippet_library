@@ -1,9 +1,0 @@
-If you get an error with no details but a GUID instead:
-
-    Install the powershell azure stuff:
-    https://www.microsoft.com/web/handlers/webpi.ashx/getinstaller/WindowsAzurePowershellGet.3f.3f.3fnew.appids
-
-    Open powershell
-    Connect-AzureRmAccount
-    Get-AzureRMLog -CorrelationId 974ca7fe-d337-4c32-91ac-237721e9bf2b -DetailedOutput
-

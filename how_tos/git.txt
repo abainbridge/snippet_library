@@ -1,7 +1,3 @@
-git config --global user.email "abainbridge@roku.com"
-git config --global user.name "Andrew Bainbridge"
-
-
 == Show repo URL ==
 
 git config --get remote.origin.url

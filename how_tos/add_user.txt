@@ -8,7 +8,7 @@ sudo usermod -aG sudo andbain
 
 
 sudo su andbain
-cd; mkdir .ssh; echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCoL7tyI/cyo9h2q+s22L1QYL4tNDQIS9UaJmL9sDI58P6bRAEbdDrAYZDVCwM68N+5iNLBt9bV/maAaCazkkn0D6byOQbtS1Uey1YnE6r26Z8qTRYVhh+++Pmi3v8Po/dxLbik2lOd1ZfXqVccygBoc9m7QeYCmH8SZveUu0S4foXVEtHuzS7791b3j4d2JArZA7X9m/5I47Eyd5lnmKVsmfDmc5RNa9rnMLDOpP5ZUf922cmEfYKatE+Cq7F5jzMILzlkK1L35TNwLRspamBRVFmDnsa6gtbfTFJ1FEiEwxwIHaYfWJGix5YXezWx60u65/pmOltJqoKgu1P0/OAb andbain@microsoft.com" >.ssh/authorized_keys
+cd; mkdir .ssh; echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCoL7tyI/cyo9h2q+qoKgu1P0/OAb a@b.com" >.ssh/authorized_keys
 
 
 cat >> ~/.bashrc
