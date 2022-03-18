@@ -23,3 +23,18 @@ readarray -t array < file
 for i in $(seq 1 $END); do echo $i; done
 
 
+== How to for-loop across a set of files whose names may contain spaces ==
+
+find . -name "* *" | grep -v \.svn | while read line; do echo $line; done
+
+or
+
+IFS='^M'
+for i in `find . -name "* *" | grep -v \.svn`; do echo $i; done
+
+
+== How to grab the Nth line of a file ==
+
+
+head -n N <file> | tail -n 1
+
