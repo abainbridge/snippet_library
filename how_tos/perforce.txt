@@ -1,0 +1,20 @@
+## Alter config on Linux
+
+nano ~/.p4config
+
+That file overrides env vars like P4CLIENT
+
+
+
+## Show which changelist you last sync'd
+
+p4 changes -m1 //depot/firmware/mfg/athens_mfg_10.5/...#have
+
+
+
+## Show recent changelists submitted in this branch
+
+p4 changes -t -m 10 ...
+
+You need to be the root of the branch in your sandbox.
+
