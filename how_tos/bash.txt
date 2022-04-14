@@ -35,6 +35,13 @@ for i in `find . -name "* *" | grep -v \.svn`; do echo $i; done
 
 == How to grab the Nth line of a file ==
 
-
 head -n N <file> | tail -n 1
 
+
+== How to use arrays ==
+
+myArray=(1 2 3 4 5)
+
+for i in "${myArray[@]}"; do echo $i; done
+
+${#myArray[*]} # Get number of items.
