@@ -1,0 +1,9 @@
+ssh-keygen -t rsa
+
+On remote machine:
+    * Append your is_rsa.pub to ~/.ssh/authorized_keys
+    * Change the permissions of .ssh to 700
+
+On client machine:
+    echo "ServerAliveInterval 60" >> ~/.ssh/config
+
