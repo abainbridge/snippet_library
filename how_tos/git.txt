@@ -29,6 +29,11 @@ https://git-scm.com/book/en/v2/Git-Tools-Rewriting-History
 git commit --amend
 
 
+== Make fetch and pull remove branches that were removed on the remote ==
+
+git config --global fetch.prune true
+
+
 == Setting your branch to exactly match the remote branch can be done in two steps ==
 
 git fetch origin
@@ -38,6 +43,18 @@ git reset --hard origin/master
 == Show history of renamed file ==
 
 git log --follow <filename>
+
+
+== Get back to a clean state ==
+
+#!/bin/bash
+#Cleans and resets a git repo and its submodules
+#https://gist.github.com/nicktoumpelis/11214362
+git reset --hard
+git submodule sync --recursive
+git submodule update --init --force --recursive
+git clean -ffdx
+git submodule foreach --recursive git clean -ffdx
 
 
 == Sparse Checkout ==

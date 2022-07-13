@@ -34,3 +34,6 @@ Rotate a video:
 
 Extract the audio stream without re-encoding:
   ffmpeg -i input-video.avi -vn -acodec copy output-audio.aac
+
+Find out how many key frames there are:
+  ffprobe -print_format compact -show_format -show_frames white.mp2 | grep key_frame=1
