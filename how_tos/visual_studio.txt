@@ -1,0 +1,46 @@
+****** Minimize exe size ***********
+
+Tested with VS 2013, x86 target.
+
+General:
+    Character Set -> Not Set
+    Whole Program Optimization -> Use Link Time Code Generation
+
+C/C++ -> Optimization:
+    Optimization: Maximize Speed
+    Inline Function Expansion: Any suitable
+    Enable Intrinsic Functions: ?
+    Favor Size of Speed: Favor small code
+    Omit Frame Pointers: Leave it alone (No is smaller).
+    Enable Function Level Linking: Yes
+    Enable enhanced instruction set: No enhanced instruction set.
+
+C/C++ -> Code Generation:
+    Enable String Pooling: Yes
+    Enable C++ Exceptions: No
+    Security Check: Disable Security Check
+
+Linker -> Manifest File:
+    Generate Manifest: No
+
+Linker -> Debugging:
+    Generate Debug Info: No
+
+Linker -> Advanced:
+    Randomized Base Address: No
+
+
+****** Link against msvcrt.dll to reduce exe size ***************
+
+https://stackoverflow.com/questions/437685/reduce-windows-executable-size
+
+So far, I learned that the first command is actually:
+
+dumpbin /exports c:\windows\System32\msvcrt.dll > msvcrt.defs
+
+
+****** Display exe size at end of build *************
+
+1. Create filesize.bat containing: @echo File size is %~z1 bytes
+2. In release post build event, put: ..\..\filesize.bat $(TargetPath)
+
