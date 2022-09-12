@@ -94,8 +94,9 @@ git clone --recurse-submodules
 
 == Beyond compare ==
 
-After setup:
-    git difftool
+git config --global diff.tool bc
+echo "git difftool -d $1^ $1" > ~/scripts/git_diff_commit.sh
+alias gdc=~/scripts/git_diff_commit.sh
 
 
 == ssh agent ==
