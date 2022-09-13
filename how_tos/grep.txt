@@ -1,1 +1,3 @@
 egrep 'foo|bar'
+
+grep -r --include "*.txt" texthere
