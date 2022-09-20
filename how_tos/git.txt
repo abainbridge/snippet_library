@@ -99,6 +99,16 @@ echo "git difftool -d --no-symlinks $1^ $1" > ~/scripts/git_diff_commit.sh
 alias gdc=~/scripts/git_diff_commit.sh
 
 
+== Tortoisegit + Github ==
+
+Use Puttygen to create an RSA key pair. The private key is a .ppk. Add the
+public key to github by clicking on your profile icon, then settings, then
+SSH and GPG keys.
+
+In Tortoisegit goto setting, Git->Remote. Select "origin" as the Remote. Add
+the .ppk file.
+
+
 == ssh agent ==
 
 # start the ssh-agent in the background
