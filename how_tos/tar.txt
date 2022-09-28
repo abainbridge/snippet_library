@@ -1,3 +1,5 @@
 tar -cvaf python_scripts.tar.lzma python_scripts/
 
 tar -xvf python_scripts.tar.lzma
+
+find -name "*.cpp" -o -name "*.h" | tar -cvzf archive.tgz -T -

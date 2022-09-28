@@ -99,6 +99,23 @@ echo "git difftool -d --no-symlinks $1^ $1" > ~/scripts/git_diff_commit.sh
 alias gdc=~/scripts/git_diff_commit.sh
 
 
+== Diff between two commits ==
+
+Bash script like this:
+d=$(dirname $1)
+cp -r $d ~/gitdiffs
+b=$(basename $d)
+echo "/c/Program\ Files/Beyond\ Compare\ 4/BCompare /z/gitdiffs/$b/left /z/gitdiffs/$b/right"
+read -p "Press Enter when finished."
+rm -r ~/gitdiffs/$b
+
+Command line like:
+git difftool --dir-diff --no-symlinks --extcmd=$HOME/scripts/dirdiffwait.sh hash_of_1st_commit^ hash_of_last_commit
+
+Configure Beyond Compare to expand subfolders on opening via Session->Session
+Settings, Handling. Then change drop down to "Also update session defaults".
+
+
 == Tortoisegit + Github ==
 
 Use Puttygen to create an RSA key pair. The private key is a .ppk. Add the
