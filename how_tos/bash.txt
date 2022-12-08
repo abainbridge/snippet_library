@@ -10,7 +10,11 @@ dn=`dirname $(readlink -f $0)`
 
 == Test if variable is unset or set to the empty string ==
 
-if [ -z "$var" ];
+if [ -z "$var" ]; then whatever; fi
+
+or, if you are running with no unset variables and don't want exit before printing an error:
+
+if [ -z "${var-}" ]; then whatever; fi
 
 
 == Read each line of file into array ==
@@ -50,3 +54,12 @@ ${#myArray[*]} # Get number of items.
 == SIMPLE ARITHMETIC ==
 
 b=$(( $a + 3 ))
+
+
+== Functions ==
+
+foo() {
+    echo "hello"
+}
+
+foo
