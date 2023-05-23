@@ -24,7 +24,7 @@ git rebase -i
 https://git-scm.com/book/en/v2/Git-Tools-Rewriting-History
 
 
-== Edit an commit message that has not been pushed ==
+== Edit a commit message that has not been pushed ==
 
 git commit --amend
 
@@ -90,6 +90,11 @@ git submodule update --progress port/mediatek/r81x
 == Get all submodules ==
 
 git clone --recurse-submodules
+
+
+== Git grep by file extension ==
+
+git grep foo -- '*.h'
 
 
 == Beyond compare ==
