@@ -44,7 +44,12 @@ head -n N <file> | tail -n 1
 
 == How to use arrays ==
 
-myArray=(1 2 3 4 5)
+myArray=(1 2 3)
+or
+myArray=()
+myArray+=(1)
+myArray+=(2)
+myArray+=(3)
 
 for i in "${myArray[@]}"; do echo $i; done
 
