@@ -9,16 +9,21 @@ General:
 C/C++ -> Optimization:
     Optimization: Maximize Speed
     Inline Function Expansion: Any suitable
-    Enable Intrinsic Functions: ?
+    Enable Intrinsic Functions: Yes
     Favor Size of Speed: Favor small code
     Omit Frame Pointers: Leave it alone (No is smaller).
     Enable Function Level Linking: Yes
     Enable enhanced instruction set: No enhanced instruction set.
 
+C/C++ -> Preprocessor:
+    Define _CRT_DISABLE_PERFCRIT_LOCKS
+
 C/C++ -> Code Generation:
     Enable String Pooling: Yes
     Enable C++ Exceptions: No
     Security Check: Disable Security Check
+    Enable Enhanced Instruction Set: No Enhanced Instructions
+    Floating Point Model: Fast
 
 Linker -> Manifest File:
     Generate Manifest: No
@@ -28,6 +33,7 @@ Linker -> Debugging:
 
 Linker -> Advanced:
     Randomized Base Address: No
+    Image Has Safe Exception Handlers: No
 
 
 ****** Link against msvcrt.dll to reduce exe size ***************
@@ -37,6 +43,12 @@ https://stackoverflow.com/questions/437685/reduce-windows-executable-size
 So far, I learned that the first command is actually:
 
 dumpbin /exports c:\windows\System32\msvcrt.dll > msvcrt.defs
+awk '{print $4}' <msvcrt.defs >msvcrt.def
+Run VS's lib on msvcrt.def to generate msvcrt.lib
+
+Under Linker -> Input:
+1. Add msvcrt.lib to "Additional Dependencies".
+2. Set "Ignore All Default Libraries" to "Yes".
 
 
 ****** Display exe size at end of build *************
@@ -44,3 +56,16 @@ dumpbin /exports c:\windows\System32\msvcrt.dll > msvcrt.defs
 1. Create filesize.bat containing: @echo File size is %~z1 bytes
 2. In release post build event, put: ..\..\filesize.bat $(TargetPath)
 
+
+****** Display time to build *************
+
+Menu Tools -> Options -> Projects and Solutions -> VC++ Project Settings -> Build Timing
+
+
+****** Enable MASM in VS 2013 ************
+
+Right click the project. Select Build Dependencies->Build Customizations.
+
+Tick Microsoft Macro Assembler.
+
+Right clickt he .asm file, click Properties, change Item Type of "Microsoft Macro Assembler".

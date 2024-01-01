@@ -22,6 +22,10 @@ inc_dirs=-I../../code -I../../contrib/pcre-6.7 -I../../contrib/Python-2.7.1/Incl
 
 cxxflags=-MMD -Wall -Wshadow -Wwrite-strings -fno-strict-aliasing
 
+# -ftrapv # traps signed overflow on addition, subtraction and multiplication
+# -fsanitize=unsigned-integer-overflow # clang only
+# -fno-threadsafe-statics
+
 c_files=$(wildcard $(src_dir)/*.cpp)
 o_files=$(patsubst $(src_dir)/%.cpp,$(obj_dir)/%.o,$(c_files))
 d_files=$(patsubst %.o,%.d,$(o_files))

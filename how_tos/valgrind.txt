@@ -1,1 +1,3 @@
 valgrind --leak-check=full --show-leak-kinds=all --error-limit=no --track-origins=yes --fair-sched=yes
+
+Also see gdb.txt.

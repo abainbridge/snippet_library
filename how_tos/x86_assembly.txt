@@ -1,3 +1,23 @@
+=== 32 bit ===
+
+cdecl:
+
+* subroutine arguments are passed on the stack.
+* Integer results are put in eax.
+* Floating point results are on the top of the x87 stack, ie st(0).
+* EAX, ECX, and EDX are caller-saved.
+* The rest are callee-saved.
+* The x87 floating point registers ST0 to ST7 must be empty (popped or freed)
+  when calling a new function, and ST1 to ST7 must be empty on exiting a
+  function. ST0 must also be empty when not used for returning a value.
+
+In the context of the C programming language, function arguments are pushed on
+the stack in the right-to-left order, i.e. the last argument is pushed first.
+
+
+=== 64 bit ===
+
+
 https://en.wikipedia.org/wiki/X86_calling_conventions#x86-64_calling_conventions
 
 ## Linux Calling Convention

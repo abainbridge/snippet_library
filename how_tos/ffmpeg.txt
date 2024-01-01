@@ -1,7 +1,7 @@
 Convert from h264 NAL stream to MP4 and set frame rate:
   ffmpeg -r 30 -i video_in.h264 -vcodec copy video_out.mp4
 
-Re-encode to improve quality:
+Re-encode to improve compression:
   ffmpeg -i infile.h264 -c:v libx264 -b:v 700k foo.mkv
 
   - b:v is the target bitrate in bits per sec.

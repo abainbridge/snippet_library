@@ -1,0 +1,12 @@
+For anyone looking to change an existing TortoiseGit installation to use PuTTY
+rather than OpenSSH, simply right-click, -> TortoiseGit -> Settings -> Network,
+then change 'ssh.exe' to 'tortoiseplink.exe'. From then on, doing a push/pull
+should be using Pageant (and any keys you have set up in there) if you also
+have that running.
+
+Run Pageant.
+
+Add key C:\msys64\home\Andy\.ssh\snotbags.ppk
+
+You can check that this key is known to Github by clicking on your face,
+click settings, click SSH and GPG keys.
