@@ -44,7 +44,7 @@ for hostname in ${!commands[@]}; do
     pids[$hostname]=$!
 done
 
-# Monitor the ssh PIDs until they all cease to exist. Scrap the remote outputs
+# Monitor the ssh PIDs until they all cease to exist. Scrape the remote outputs
 # repeatedly and show the last few lines of each.
 keep_going=true
 while $keep_going; do
@@ -59,7 +59,7 @@ while $keep_going; do
         if [[ $current_pids == *${pids[$hostname]}* ]]; then
             keep_going=true
         fi
-        
+
         echo - $hostname -------------------------------------------------------------
         echo
         lines=`tail -n $lines_per_cmd out_$hostname.txt`

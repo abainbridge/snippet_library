@@ -1,9 +1,20 @@
-Didn't work while at Roku because of https://github.com/winfsp/sshfs-win/issues/101
-
 https://github.com/billziss-gh/sshfs-win
 
 Install the latest version of WinFsp.
 Install the latest version of SSHFS-Win.
+
+Ultimately I ended up using sshfs-win manager.
+
+In Advanced settings, I set the following custom command line params:
+    gid = 65792
+    uid = 65792
+    allow_other
+    umask = 0
+
+The gid and uid value is a magic number that "just makes it work" and
+is nothing to do with my actual gid and uid values.
+
+Previously I'd attempted to not use the "Manager" gui and instead did:
 
 Right click on "This PC" in Windows Explorer. Select mount network drive. Enter
 a spec like this \\sshfs\REMUSER@HOST[\PATH]
@@ -24,3 +35,5 @@ sudo nano /etc/ssh/sshd_config
        ChrootDirectory /home/abainbridge
 
 sudo systemctl restart sshd
+
+------------

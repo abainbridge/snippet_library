@@ -2,8 +2,8 @@ gdb --args executablename arg1 arg2 arg3
 
 start - starts stopped at start of main
 run - starts not stopped
-s - step in
-n - step over
+s - step in             si - assembly equivalent
+n - step over           ni - assembly equivalent
 fin[ish] - step out
 c - continue
 p <expr> - print expression

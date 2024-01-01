@@ -5,8 +5,8 @@ include /usr/share/nano/makefile.nanorc
 include /usr/share/nano/python.nanorc
 include /usr/share/nano/sh.nanorc
 
-bind ^C copytext main
-bind ^V uncut main
+bind ^C copy main
+bind ^V paste all
 bind ^X cut main
 bind ^Z undo main
 bind ^Y redo main
@@ -14,7 +14,11 @@ bind ^G gotoline main
 bind ^F whereis main
 bind ^R replace main
 bind ^Q exit main
+bind ^S savefile main
 
+set constantshow
+set mouse
+set nohelp
+set positionlog
 set tabsize 4
 set tabstospaces
-set mouse

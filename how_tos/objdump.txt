@@ -1,1 +1,13 @@
+# Show disassembly
+
 objdump -M intel -Sd <executable file>
+
+
+## See sizes of functions?
+
+nm --print-size --size-sort --radix=d tst.o
+
+
+## See sizes of sections
+
+size -A -d tst.o | egrep 'data|text'

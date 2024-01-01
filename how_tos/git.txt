@@ -24,9 +24,14 @@ git rebase -i
 https://git-scm.com/book/en/v2/Git-Tools-Rewriting-History
 
 
-== Edit an commit message that has not been pushed ==
+== Edit a commit message that has not been pushed ==
 
 git commit --amend
+
+
+== Make fetch and pull remove branches that were removed on the remote ==
+
+git config --global fetch.prune true
 
 
 == Setting your branch to exactly match the remote branch can be done in two steps ==
@@ -38,6 +43,18 @@ git reset --hard origin/master
 == Show history of renamed file ==
 
 git log --follow <filename>
+
+
+== Get back to a clean state ==
+
+#!/bin/bash
+#Cleans and resets a git repo and its submodules
+#https://gist.github.com/nicktoumpelis/11214362
+git reset --hard
+git submodule sync --recursive
+git submodule update --init --force --recursive
+git clean -ffdx
+git submodule foreach --recursive git clean -ffdx
 
 
 == Sparse Checkout ==
@@ -75,11 +92,43 @@ git submodule update --progress port/mediatek/r81x
 git clone --recurse-submodules
 
 
-== Beyond compare == 
+== Git grep by file extension ==
+
+git grep foo -- '*.h'
+
+
+== Beyond compare ==
 
 git config --global diff.tool bc
 echo "git difftool -d --no-symlinks $1^ $1" > ~/scripts/git_diff_commit.sh
 alias gdc=~/scripts/git_diff_commit.sh
+
+
+== Diff between two commits ==
+
+Bash script like this:
+d=$(dirname $1)
+cp -r $d ~/gitdiffs
+b=$(basename $d)
+echo "/c/Program\ Files/Beyond\ Compare\ 4/BCompare /z/gitdiffs/$b/left /z/gitdiffs/$b/right"
+read -p "Press Enter when finished."
+rm -r ~/gitdiffs/$b
+
+Command line like:
+git difftool --dir-diff --no-symlinks --extcmd=$HOME/scripts/dirdiffwait.sh hash_of_1st_commit^ hash_of_last_commit
+
+Configure Beyond Compare to expand subfolders on opening via Session->Session
+Settings, Handling. Then change drop down to "Also update session defaults".
+
+
+== Tortoisegit + Github ==
+
+Use Puttygen to create an RSA key pair. The private key is a .ppk. Add the
+public key to github by clicking on your profile icon, then settings, then
+SSH and GPG keys.
+
+In Tortoisegit goto setting, Git->Remote. Select "origin" as the Remote. Add
+the .ppk file.
 
 
 == ssh agent ==
