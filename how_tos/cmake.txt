@@ -1,0 +1,5 @@
+* Create a directory where you want the build to go.
+* cd to that directory.
+* cmake <src directory containing CMakeLists.txt>
+  * This generates a CMakeFiles diretory to contain the cache.
+* Then, in the build directory, do "cmake --build ."
