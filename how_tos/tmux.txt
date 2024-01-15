@@ -1,0 +1,15 @@
+Run several sub-scripts in parallel, each in their own pane.
+
+
+#!/bin/bash
+
+#tmux kill-session -t lldb-server
+
+tmux new-session -d -s lldb-server ~/dbg1.sh
+tmux split-window ~/dbg2.sh
+tmux split-window ~/dbg3.sh
+
+tmux select-layout even-vertical
+tmux select-pane -t 1
+
+tmux attach-session -t lldb-server

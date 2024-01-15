@@ -1,0 +1,68 @@
+https://github.com/cnlohr/rawdrawandroid
+
+
+## Connecting
+
+In phone settings enable developer options and usb debugging.
+
+Connect a usb lead from pc to phone.
+
+export ADB="/mnt/c/Users/andy/AppData/Local/Android/Sdk/platform-tools/adb.exe"
+
+$ADB shell
+
+Find the phone's IP address:
+    ip a | grep inet
+
+exit
+
+$ADB tcpip 4444
+$ADB connect <wlan0 IP>:4444
+
+Unplug usb cable.
+
+
+
+# Command line gdb
+
+https://simoneaonzo.it/gdb-android/
+
+find ~/android-sdk/ -name gdbserver -type f
+
+https://stackoverflow.com/a/74661064/66088
+
+Find package name in AndroidManifest.xml
+
+
+In shell window 1:
+
+# Put lldb server on Android device
+adb push $ndk/toolchains/llvm/prebuilt/windows-x86_64/lib64/clang/9.0.9/lib/linux/aarch64/lldb-server /data/local/tmp
+adb shell chmod +x /data/local/tmp/lldb-server
+
+# Kill any instance of lldb-server left over from a previous run.
+adb shell run-as $package_name killall -9 lldb-server
+sleep 1
+
+# Run your program on Android device
+adb shell run-as $package_name cp /data/local/tmp/lldb-server /data/data/$package_name/
+adb shell am start -D -n "$package_name/android.app.NativeActivity"
+
+adb shell run-as $package_name sh -c
+    \data\data\$package_name\lldb-server platform --server --listen unix-abstract:\\\data\data\<package_name>/debug.socket
+    /data/data/org.yourorg.cnfgtest/lldb-server platform --server --listen unix-abstract:///data/data/org.yourorg.cnfgtest/debug.socket
+
+
+In shell window 2:
+
+adb shell run-as $package_name ps
+lldb
+> platform select remote-android
+> platform connect unix-abstract-connect:///data/data/<package_name>/debug.socket
+> attach <pid>
+
+
+In shell window 3:
+adb shell run-as $package_name ps
+adb forward tcp:12345 jdwp:<pid>
+jdb -attach localhost:12345
