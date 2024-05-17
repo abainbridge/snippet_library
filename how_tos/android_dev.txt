@@ -2,28 +2,40 @@ https://github.com/cnlohr/rawdrawandroid
 
 
 ## Connecting
+###############################################################################
 
 In phone settings enable developer options and usb debugging.
 
 Connect a usb lead from pc to phone.
 
-export ADB="/mnt/c/Users/andy/AppData/Local/Android/Sdk/platform-tools/adb.exe"
+If using WSL, you have to start by using the non WSL adb from Android Studio
+because WSL doesn't support USB well enough to work:
+   alias adb="/mnt/c/Users/andy/AppData/Local/Android/Sdk/platform-tools/adb.exe"
 
-$ADB shell
+adb shell
+
+If that didn't work:
+    * Make sure the phone has a notification saying "USB debugging is on". This should appear as soon as you plug in the USB cable.
+    * Make sure you're using the Android SDK's adb binary, not WSL's.
+    * Also try "adb kill-server" and then try again. You might need to click OK on a dialog on the phone.
 
 Find the phone's IP address:
     ip a | grep inet
 
 exit
 
-$ADB tcpip 4444
-$ADB connect <wlan0 IP>:4444
+adb tcpip 4444
 
-Unplug usb cable.
+Remove the adb alias to go back to using the adb supplied with WSL.
+
+adb connect <wlan0 IP>:4444
+
+<optional> Unplug usb cable.
 
 
 
 # Command line gdb
+###############################################################################
 
 https://simoneaonzo.it/gdb-android/
 
@@ -66,3 +78,9 @@ In shell window 3:
 adb shell run-as $package_name ps
 adb forward tcp:12345 jdwp:<pid>
 jdb -attach localhost:12345
+
+
+## Nice logs
+###############################################################################
+
+adb logcat --pid=`adb shell pidof -s org.yourorg.cnfgtest` --format=color

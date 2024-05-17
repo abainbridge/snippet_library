@@ -9,7 +9,8 @@ tmux new-session -d -s lldb-server ~/dbg1.sh
 tmux split-window ~/dbg2.sh
 tmux split-window ~/dbg3.sh
 
-tmux select-layout even-vertical
+tmux resize-pane -t 0 -y 5
+tmux resize-pane -t 2 -y 5
 tmux select-pane -t 1
 
 tmux attach-session -t lldb-server
