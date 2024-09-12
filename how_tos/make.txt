@@ -20,7 +20,8 @@ src_dir=../../code
 obj_dir=obj
 inc_dirs=-I../../code -I../../contrib/pcre-6.7 -I../../contrib/Python-2.7.1/Include -I../../contrib/Python-2.7.1/PC
 
-cxxflags=-MMD -Wall -Wshadow -Wwrite-strings -fno-strict-aliasing
+cxxflags=-MMD -Wall -Wshadow -Wwrite-strings -Wstrict-prototypes -Wold-style-definition \
+    -Wredundant-decls -Wmissing-include-dirs -Wlogical-op -fno-strict-aliasing -DNDEBUG
 
 # -ftrapv # traps signed overflow on addition, subtraction and multiplication
 # -fsanitize=unsigned-integer-overflow # clang only
